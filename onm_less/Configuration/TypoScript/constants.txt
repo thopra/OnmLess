@@ -1,0 +1,25 @@
+plugin.tx_onmless {
+
+	path {
+		output = typo3temp/onm_less/cssout
+		cache = typo3temp/onm_less/lesscache
+	}
+
+	lessphp {
+		# can be set to "lessjs" (default), "compressed" or "classic"
+		formatter = lessjs
+
+		# preserve comments in compiled css?
+		preserveComments = 0
+
+		# force re-compiling
+		force = 0
+	}
+
+	#disable/enable compiling
+	enable = 1
+
+	#add path to as md5 hash filename to prevent naming conflicts
+	addHash = 1
+
+}

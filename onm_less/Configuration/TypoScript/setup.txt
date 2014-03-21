@@ -1,0 +1,35 @@
+plugin.tx_onmless {
+
+	path {
+		output = {$plugin.tx_onmless.path.output}
+		cache = {$plugin.tx_onmless.path.cache}
+	}
+
+	lessphp {
+		# can be set to "lessjs" (default), "compressed" or "classic"
+		formatter = {$plugin.tx_onmless.lessphp.formatter}
+
+		# preserve comments in compiled css?
+		preserveComments = {$plugin.tx_onmless.lessphp.preserveComments}
+
+		# force re-compiling
+		force = {$plugin.tx_onmless.lessphp.force}
+	}
+
+	#disable compiling
+	enable = {$plugin.tx_onmless.enable}
+
+	#add path to as md5 hash filename to prevent naming conflicts
+	addHash = {$plugin.tx_onmless.addHash}
+
+	# custom functions
+	regsiterFunction {
+
+	}
+
+	# variables to pass
+	variables {
+
+	}
+
+}
