@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "onm_less".
  *
- * Auto generated 22-04-2013 17:39
+ * Auto generated 15-02-2014 12:53
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next

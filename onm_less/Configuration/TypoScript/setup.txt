@@ -1,11 +1,15 @@
 plugin.tx_onmless {
 
+	# either lessphp (default) or recess (you will need to have recess installed on your webserver)
+	compiler = recess
+
 	path {
 		output = {$plugin.tx_onmless.path.output}
 		cache = {$plugin.tx_onmless.path.cache}
 	}
 
 	lessphp {
+
 		# can be set to "lessjs" (default), "compressed" or "classic"
 		formatter = {$plugin.tx_onmless.lessphp.formatter}
 
@@ -14,6 +18,14 @@ plugin.tx_onmless {
 
 		# force re-compiling
 		force = {$plugin.tx_onmless.lessphp.force}
+
+		#choose version of lessphp (either "current" or "legacy"). If you're using boostrap 2 you will need to change this value to legacy
+		version = current
+
+	}
+
+	recess {
+
 	}
 
 	#disable compiling

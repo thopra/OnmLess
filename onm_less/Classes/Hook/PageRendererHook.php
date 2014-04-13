@@ -1,7 +1,6 @@
 <?php
 
 namespace ONM\Less\Hook;
-use ONM\Less\Utility\ParseLESS;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase;
 
@@ -78,8 +77,6 @@ class PageRendererHook {
 					$fileProperties['excludeFromConcatenation']
 			);
 
-
-
 		}
 	}
 
@@ -94,26 +91,7 @@ class PageRendererHook {
 		$objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $configurationManager = $objectManager->get('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
 
-        $config = $configurationManager->getConfiguration( Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'OnmLess', '' );
-
-        //convert values that are of type stdWrap
-		$typoScriptService = $objectManager->get('TYPO3\CMS\Extbase\Service\TypoScriptService');
-		$settingsAsTypoScriptArray = $typoScriptService->convertPlainArrayToTypoScriptArray($config);
-		$cObj =  GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-
-		if (is_array($config['variables'])) {
-			foreach ( $config['variables'] as $key => $value ) {
-				$config['variables'][$key] = $cObj->stdWrap($settingsAsTypoScriptArray['variables.'][$key], $settingsAsTypoScriptArray['variables.'][$key.'.']);
-			}
-		}
-		
-		if (is_array($config['registerFunction'])) {
-			foreach ( $config['registerFunction'] as $key => $value ) {
-				$config['registerFunction'][$key] = $cObj->stdWrap($settingsAsTypoScriptArray['variables.'][$key], $settingsAsTypoScriptArray['variables.'][$key.'.']);
-			}
-		}
-
-		return $config;
+        return $configurationManager->getConfiguration( Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'OnmLess', '' );
 	}
 
 	/**
@@ -135,12 +113,14 @@ class PageRendererHook {
 		if ($fileInfo['extension'] != 'less') {
 			return $fileName;
 		}
+
+		$parser = $this->getParser();
 	
-		$lessFile = new ParseLESS(
+		$lessFile = new $parser(
 				$fileInfo['basename'],
 			 	$fileInfo['dirname'],
 				$this->conf['path']['cache'],
-				$this->conf['lessphp'],
+				$this->conf[$this->conf['compiler']],
 				(bool)$this->conf['addHash'],
 				$this->conf['variables'],
 				$this->conf['registerFunction']
@@ -152,6 +132,20 @@ class PageRendererHook {
 		}
 
 		return $fileName;
+	}
+
+	private function getParser()
+	{
+		switch ( $this->conf['compiler'] ) {
+
+			case 'recess':
+				return '\\ONM\\Less\\Utility\\ParseLessRecess';
+
+			case 'lessphp':
+			default: 
+				return '\\ONM\\Less\\Utility\\ParseLessPhp';
+
+		}
 	}
 
 }
