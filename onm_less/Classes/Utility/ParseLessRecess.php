@@ -39,7 +39,7 @@ require_once( 'ParseLessAbstract.php' );
 
 class ParseLessRecess extends ParseLessAbstract {
 
-    protected $recessPath = '';
+    protected $compileFile;
 
     /**
      * Init
@@ -48,13 +48,15 @@ class ParseLessRecess extends ParseLessAbstract {
     protected function init($conf)
     {
        if ( count($this->registerFunctions) ) {
-            // todo: check if recess can handle this
+            // this actually does not work without lessphp
+            throw new Exception("It's currently not possible to register functions with this compiler. Remove the functions from the configuration or change the compiler to lessphp.");
+            
         }
 
-        if ( count($variables) ) {
-            $this->hash = '-'.md5($this->path.serialize($variables)); 
-            // todo: check if recess can handle this 
+        if ( count($this->variables) ) {
+            $this->hash = '-'.md5($this->path.serialize($this->variables)); 
         }
+        
     }
     
     /**
@@ -67,9 +69,32 @@ class ParseLessRecess extends ParseLessAbstract {
      */
     public function compile($outPath)
     {
-        $cli = $this->recessPath . "recess ". escapeshellarg($this->path.$this->file)." --compress --watch > ". escapeshellarg(PATH_site.$outPath.'/'.$this->outFileName);
-        
-        exec($cli);
+       $compileFile = $this->path.$this->file;
+       $modifiedFile = false;
+
+       if ( count($this->variables) ) {
+            $modifiedFile = PATH_site . $this->cachePath.str_replace(".css", '.'.$this->cacheFileExt.'.less', $this->outFileName);
+            $content = file_get_contents($compileFile);
+            $this->hash = '-'.md5($this->path.serialize($this->variables)); 
+
+            foreach ($this->variables as $key => $value) {
+                 $content .= "\r\n@".$key.": ".$value.";";
+             } 
+        }
+       
+        if ($modifiedFile) {
+            file_put_contents($modifiedFile, $content);
+            $compileFile = $modifiedFile; 
+        }
+
+        $cmd =  \TYPO3\CMS\Core\Utility\CommandUtility::getCommand('recess');
+        if (!$cmd) {
+            throw new Exception("Error hile compiling LESS: recess cannot be executed.");  
+        }
+
+        $cli  = $cmd . " ". escapeshellarg($compileFile)." --compile --compress > ". escapeshellarg(PATH_site.$outPath.'/'.$this->outFileName);
+
+        $lastLine = \TYPO3\CMS\Core\Utility\CommandUtility::exec($cli);
 
         return $outPath.'/'.$this->outFileName;
     }

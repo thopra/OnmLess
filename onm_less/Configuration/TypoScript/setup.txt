@@ -1,7 +1,7 @@
 plugin.tx_onmless {
 
 	# either lessphp (default) or recess (you will need to have recess installed on your webserver)
-	compiler = recess
+	compiler = {$plugin.tx_onmless.compiler}
 
 	path {
 		output = {$plugin.tx_onmless.path.output}

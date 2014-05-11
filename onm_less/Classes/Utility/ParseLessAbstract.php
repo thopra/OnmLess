@@ -77,6 +77,8 @@ abstract class ParseLessAbstract {
         $this->path = $path.'/';
         $this->cachePath = $cachePath .'/';
         $this->hash = ($addHash) ? '-'.md5($this->path) : '';
+        $this->variables = $variables;
+        $this->registerFunctions = $registerFunctions;
 
         if (!is_dir( PATH_site . $this->cachePath)) {
         	GeneralUtility::mkdir_deep(PATH_site . $this->cachePath);

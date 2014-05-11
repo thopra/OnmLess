@@ -1,5 +1,8 @@
 plugin.tx_onmless {
 
+	# either lessphp (default) or recess (you will need to have recess installed on your webserver)
+	compiler = lessphp
+
 	path {
 		output = typo3temp/onm_less/cssout
 		cache = typo3temp/onm_less/lesscache

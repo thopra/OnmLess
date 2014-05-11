@@ -115,7 +115,7 @@ class PageRendererHook {
 		}
 
 		$parser = $this->getParser();
-	
+
 		$lessFile = new $parser(
 				$fileInfo['basename'],
 			 	$fileInfo['dirname'],
