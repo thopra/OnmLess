@@ -99,19 +99,13 @@ abstract class ParseLessAbstract {
      * @param string $outPath       output path (without tailing slash)
      * @return string/bool          relative path to the created CSS file or false on error
      */
-    public function compile($outPath)
-    {
-        
-    }
+    public function compile($outPath) {}
     
 
     /**
      * Initialize compiling
      * 
      */
-    protected function init($conf)
-    {
-
-    }
+    protected function init($conf) {}
     
 }
