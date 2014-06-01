@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'description' => 'A LESS Compiler for Typo3 Stylesheets, based on less.php by oyejorge/less.php',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '0.2.2',
+	'version' => '0.3.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
@@ -36,9 +36,7 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' => 
 		array (
-			'extbase' => '6.0',
-			'fluid' => '6.0',
-			'typo3' => '6.0-0.0.0',
+			'typo3' => '6.0.0-6.2.99',
 		),
 		'conflicts' => '',
 		'suggests' => 
