@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array (
 	'title' => 'LESS Compiler',
-	'description' => 'A LESS Compiler for Typo3 Stylesheets, based on lessphp from leafo.ne',
+	'description' => 'A LESS Compiler for Typo3 Stylesheets, based on less.php by oyejorge/less.php',
 	'category' => 'plugin',
 	'shy' => 0,
 	'version' => '0.2.2',
