@@ -41,6 +41,9 @@ class ParseLessPhp extends ParseLessAbstract {
 
     private $lessc;
 
+    const VERSION_LEGACY = "legacy";
+    const VERSION_CURRENT = "current";
+
     /**
      * Init
      * 
@@ -51,7 +54,17 @@ class ParseLessPhp extends ParseLessAbstract {
             $this->force = (bool)$conf['force'];
         }
 
-        $version = isset($conf['version']) ? $conf['version'] : 'current' ;
+        switch ($conf['version']) {
+            case self::VERSION_LEGACY:
+                $version = self::VERSION_LEGACY;
+                break;
+
+            case self::VERSION_CURRENT:
+            default:
+                $version = self::VERSION_CURRENT;
+                break;
+        }
+
 
         require_once( \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('onm_less') . 'Classes/Contrib/lessphp-'.$version.'/lessc.inc.php' );
         $this->lessc = new \lessc();
