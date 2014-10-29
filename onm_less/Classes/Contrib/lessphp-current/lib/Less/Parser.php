@@ -1,7 +1,7 @@
 <?php
 
 require_once( dirname(__FILE__).'/Cache.php');
-
+require_once( dirname(__FILE__).'/MinifyCss.php');
 /**
  * Class for parsing and compiling less files into css
  *
@@ -168,7 +168,6 @@ class Less_Parser{
 	 * @return string
 	 */
 	public function getCss(){
-
 		$precision = ini_get('precision');
 		@ini_set('precision',16);
 		$locale = setlocale(LC_NUMERIC, 0);
@@ -197,9 +196,31 @@ class Less_Parser{
 		}else{
 			$css = $evaldRoot->toCSS();
 		}
-
+                
+                 Less_Parser::$options['compress'] = TRUE;
 		if( Less_Parser::$options['compress'] ){
-			$css = preg_replace('/(^(\s)+)|((\s)+$)/', '', $css);
+                  //  $csscompr = new Minify_CSS::minify($css);
+                   
+                    $options = array(
+                        'compress' => true,
+                        'removeCharsets' => true,
+                        'preserveComments' => false,
+                        'currentDir' => null,
+                        'docRoot' => $_SERVER['DOCUMENT_ROOT'],
+                        'prependRelativePath' => null,
+                        'symlinks' => array(),
+                    );
+                    $css = Minify_CSS::minify($css,$options);
+                        //OLD
+                        //$css = preg_replace('/(^(\s)+)|((\s)+$)/', '', $css);
+//                        // Remove comments
+//                        $css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+//
+//                        // Remove space after colons
+//                        $css = str_replace(': ', ':', $css);
+
+                        // Remove whitespace
+//                        $css = str_replace("\n", ' ', $css);
 		}
 
 		//reset php settings
