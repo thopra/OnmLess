@@ -197,10 +197,7 @@ class Less_Parser{
 			$css = $evaldRoot->toCSS();
 		}
                 
-                 Less_Parser::$options['compress'] = TRUE;
 		if( Less_Parser::$options['compress'] ){
-                  //  $csscompr = new Minify_CSS::minify($css);
-                   
                     $options = array(
                         'compress' => true,
                         'removeCharsets' => true,
@@ -211,17 +208,7 @@ class Less_Parser{
                         'symlinks' => array(),
                     );
                     $css = Minify_CSS::minify($css,$options);
-                        //OLD
-                        //$css = preg_replace('/(^(\s)+)|((\s)+$)/', '', $css);
-//                        // Remove comments
-//                        $css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
-//
-//                        // Remove space after colons
-//                        $css = str_replace(': ', ':', $css);
-
-                        // Remove whitespace
-//                        $css = str_replace("\n", ' ', $css);
-		}
+                }
 
 		//reset php settings
 		@ini_set('precision',$precision);
