@@ -87,7 +87,7 @@ class ParseLessPhp extends ParseLessAbstract {
         }
 
         if ( count($this->variables) ) {
-            $this->hash = '-'.md5($this->path.serialize($variables)); 
+            $this->hash = '-'.md5($this->path.serialize($this->variables)); 
             $this->lessc->setVariables($this->variables);   
         }
     }
