@@ -91,7 +91,25 @@ class PageRendererHook {
 		$objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $configurationManager = $objectManager->get('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
 
-        return $configurationManager->getConfiguration( Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'OnmLess', '' );
+        $config = $configurationManager->getConfiguration( Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'OnmLess', '' );
+	
+        $typoScriptService = $objectManager->get('TYPO3\CMS\Extbase\Service\TypoScriptService');
+		$settingsAsTypoScriptArray = $typoScriptService->convertPlainArrayToTypoScriptArray($config);
+		$cObj =  GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+
+		if (is_array($config['variables'])) {
+			foreach ( $config['variables'] as $key => $value ) {
+				$config['variables'][$key] = $cObj->stdWrap($settingsAsTypoScriptArray['variables.'][$key], $settingsAsTypoScriptArray['variables.'][$key.'.']);
+			}
+		}
+		
+		if (is_array($config['registerFunction'])) {
+			foreach ( $config['registerFunction'] as $key => $value ) {
+				$config['registerFunction'][$key] = $cObj->stdWrap($settingsAsTypoScriptArray['variables.'][$key], $settingsAsTypoScriptArray['variables.'][$key.'.']);
+			}
+		}
+
+		return $config;
 	}
 
 	/**
