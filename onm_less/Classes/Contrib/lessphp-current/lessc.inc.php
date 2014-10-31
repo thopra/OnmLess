@@ -13,7 +13,6 @@ if (!class_exists('Less_Parser')) {
 	require_once dirname(__FILE__).'/lib/Less/Autoloader.php';
 	Less_Autoloader::register();
 }
-
 class lessc{
 
 	static public $VERSION = Less_Version::less_version;
@@ -60,7 +59,7 @@ class lessc{
 	public function parse($buffer, $presets = array()){
 		$options = array();
 		$this->setVariables($presets);
-		
+                
 		switch($this->formatterName){
 			case 'compressed':
 				$options['compress'] = true;
@@ -90,8 +89,12 @@ class lessc{
 		$this->importDir = (array)$this->importDir;
 
 		$this->allParsedFiles = array();
-
-		$parser = new Less_Parser();
+                switch($this->formatterName){
+    			case 'compressed':
+				$options['compress'] = true;
+				break;
+		}
+		$parser = new Less_Parser($options);
 		$parser->SetImportDirs($this->getImportDirs());
 		if( count( $this->registeredVars ) ){
 			$parser->ModifyVars( $this->registeredVars );
@@ -113,7 +116,12 @@ class lessc{
 		if (!is_readable($fname)) {
 			throw new Exception('load error: failed to find '.$fname);
 		}
-
+                
+		switch($this->formatterName){
+			case 'compressed':
+				$options['compress'] = true;
+				break;
+		}
 		$pi = pathinfo($fname);
 
 		$oldImport = $this->importDir;
@@ -124,7 +132,7 @@ class lessc{
 		$this->allParsedFiles = array();
 		$this->addParsedFile($fname);
 
-		$parser = new Less_Parser();
+		$parser = new Less_Parser($options);
 		$parser->SetImportDirs($this->getImportDirs());
 		if( count( $this->registeredVars ) ) $parser->ModifyVars( $this->registeredVars );
 		$parser->parseFile($fname);
