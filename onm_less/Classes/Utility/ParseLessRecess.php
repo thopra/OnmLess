@@ -2,9 +2,6 @@
 namespace ONM\Less\Utility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-require_once( 'ParseLessAbstract.php' );
-
-
 /***************************************************************
  *  Copyright notice
  *
