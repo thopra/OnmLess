@@ -1,7 +1,7 @@
 {
 	"name": "onm/onm-less",
 	"description": "A LESS Compiler for Typo3 Stylesheets, based on less.php by oyejorge/less.php",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"type": "typo3-cms-extension",
 	"require": {
 		"composer/installers": "~1.0"
